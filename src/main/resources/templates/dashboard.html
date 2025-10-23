@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::content})}">
+<body>
+<div th:fragment="content" class="container-fluid">
+
+  <!-- Breadcrumb -->
+  <nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item active" aria-current="page">Trang chủ</li>
+    </ol>
+  </nav>
+
+  <!-- Tiêu đề -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold text-dark">📊 Tổng quan hệ thống</h2>
+  </div>
+
+  <!-- Thống kê nhanh -->
+  <div class="row g-3">
+    <div class="col-md-3">
+      <div class="card text-white bg-primary shadow-sm">
+        <div class="card-body text-center">
+          <h5 class="card-title">Phòng</h5>
+          <h3 th:text="${roomCount}">0</h3>
+          <p class="card-text">Tổng số phòng</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card text-white bg-success shadow-sm">
+        <div class="card-body text-center">
+          <h5 class="card-title">Người thuê</h5>
+          <h3 th:text="${tenantCount}">0</h3>
+          <p class="card-text">Đang thuê phòng</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card text-white bg-warning shadow-sm">
+        <div class="card-body text-center">
+          <h5 class="card-title">Hóa đơn</h5>
+          <h3 th:text="${invoiceCount}">0</h3>
+          <p class="card-text">Tổng số hóa đơn</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card text-white bg-danger shadow-sm">
+        <div class="card-body text-center">
+          <h5 class="card-title">Người dùng</h5>
+          <h3 th:text="${userCount}">0</h3>
+          <p class="card-text">Tài khoản trong hệ thống</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Biểu đồ -->
+  <div class="card mt-5 shadow-sm">
+    <div class="card-header bg-light fw-semibold">
+      Thống kê thuê phòng theo tháng
+    </div>
+    <div class="card-body">
+      <canvas id="bookingChart" height="90"></canvas>
+    </div>
+  </div>
+
+  <script th:src="@{https://cdn.jsdelivr.net/npm/chart.js}"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const ctx = document.getElementById('bookingChart');
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Th1', 'Th2', 'Th3', 'Th4', 'Th5', 'Th6', 'Th7', 'Th8', 'Th9', 'Th10', 'Th11', 'Th12'],
+          datasets: [{
+            label: 'Số lượt thuê phòng',
+            data: [3, 5, 8, 10, 9, 6, 7, 4, 11, 12, 9, 14],
+            borderWidth: 1,
+            backgroundColor: '#0d6efd'
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: { beginAtZero: true }
+          },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: '#0d6efd',
+              titleColor: '#fff',
+              bodyColor: '#fff'
+            }
+          }
+        }
+      });
+    });
+  </script>
+
+</div>
+</body>
+</html>
